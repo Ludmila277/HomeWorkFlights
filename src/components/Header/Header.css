@@ -1,0 +1,121 @@
+body {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+}
+.header {
+  position: absolute;
+  padding: 84px 0 0 230px; 
+}
+.logotype {
+  display: flex;
+  align-items: center;
+  margin-bottom: 46px;
+}
+.logo {
+  width: 100px;
+  height: 80.45px;
+}
+.title {
+  color: #4e148c;
+  font-size: 24px;
+  font-weight: 700;
+  margin-left: 34px;
+}
+.menu {
+  display: flex;
+  margin-left: 280px;
+}
+.menu_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 243px;
+  height: 55px;
+  border: 1px solid #4e148c;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.menu_button:last-child {
+  margin-right: 0;
+}
+.menu_button.active {
+  background-color: #4e148c;
+}
+.button-text {
+  color: #4e148c;
+  font-size: 16px;
+  font-weight: 700;
+}
+.menu_button.active .button-text {
+  color: white;
+}
+.options {
+  position: relative;
+  top: -60px;
+  width: 272px;
+  margin-top: 20px;
+}
+.menu_title {
+  color: #4e148c;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.option,
+.airline {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  gap: 10px;
+}
+.option:hover,
+.airline:hover {
+  background-color: #f0f0f0;
+}
+.option.selected,
+.airline.selected {
+  background-color: #f8f8f8;
+}
+.checkbox,
+.circle {
+  width: 21px;
+  height: 21px;
+  border: 2px solid #4e148c;
+  border-radius: 4px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.checkbox {
+  border-radius: 4px;
+}
+.circle {
+  border-radius: 50%;
+}
+.circle.selected {
+  background-color: #4e148c;
+}
+.check-mark {
+  color: #4e148c;
+  font-size: 23px;
+}
+.label,
+.airline-name {
+  font-size: 16px;
+  font-weight: 500;
+}
+.airlines-selector {
+  margin-top: 30px;
+}
+.airlines-options {
+  display: flex;
+  flex-direction: column;
+  width: 272px;
+}
+.airline {
+  margin-bottom: 5px;
+}
