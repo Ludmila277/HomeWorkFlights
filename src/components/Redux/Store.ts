@@ -1,22 +1,34 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import flightsReducer from "./FlightsSlice";
+import type { FlightsState } from "./Types";
 
-const initialState = {
-  flights: {
-    list: [],
-    total: 0,
-    isLoading: false,
-  },
+const rootReducer = combineReducers({
+  flights: flightsReducer,
+});
+
+const initialState: FlightsState = {
+  status: "idle",
+  list: [],
+  filteredList: [],
+  total: 0,
+  isLoading: false,
+  sortType: "price",
+  selectedStops: [],
+  selectedAirlines: [],
 };
 
 export const store = configureStore({
-  reducer: {
-    flights: flightsReducer,
+  reducer: rootReducer,
+  preloadedState: {
+    flights: initialState,
   },
-  preloadedState: initialState,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
-export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
 
 export default store;

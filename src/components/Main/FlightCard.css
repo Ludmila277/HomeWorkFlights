@@ -1,0 +1,137 @@
+.tickets {
+  display: grid;
+  grid-template-columns: repeat(3, 241px);
+  gap: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+}
+.ticket_container,
+.ticket_container__way,
+.ticket_container__transfers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  gap: 5px;
+  padding: 15px;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.ticket_container__way {
+  top: 33px;
+}
+
+.flight_image {
+  width: 100px;
+  height: 26px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+}
+
+.price {
+  font-size: 32px;
+  font-weight: 700;
+  color: #4e148c;
+  margin-bottom: 25px;
+}
+
+.route {
+  font-size: 16px;
+  font-weight: 500;
+  color: #858ae3;
+}
+
+.times {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4e148c;
+}
+
+/* Время в пути */
+.duration_description,
+.duration {
+  font-size: 16px;
+  font-weight: 500;
+}
+.duration_description {
+  color: #858ae3;
+}
+
+.duration {
+  color: #4e148c;
+}
+
+/* Информация о пересадках */
+.stops_description,
+.stops {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.stops_description {
+  color: #858ae3;
+}
+.stops {
+  color: #4e148c;
+}
+
+.load-more-button {
+  position: relative;
+  top: -200px;
+  left: 505px;
+  width: 100%;
+  max-width: 727px;
+  height: 62px;
+  margin: 30px auto;
+  border-radius: 10px;
+  background-color: #4e148c;
+  color: white;
+  border: none;
+  font-size: 24px;
+  font-family: Inter;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #3b0f6e;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@media (max-width: 768px) {
+  .tickets {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    padding: 2px;
+    position: relative;
+    top: 50px;
+  }
+
+  .load-more-button {
+    position: relative;
+    top: 10px;
+    left: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tickets {
+    top: 100px;
+  }
+
+  .load-more-button {
+    position: relative;
+    top: 20px;
+    left: 10px;
+  }
+}

@@ -1,13 +1,25 @@
 export interface Flight {
+  id: number;
   price: number;
   route: string;
   departureTime: string;
   arrivalTime: string;
   duration: string;
-  stops: string;
+  stops: number;
+  airlineId: number;
   image: string;
 }
 
+export interface FlightsState {
+  status: "idle" | "loading" | "success" | "failed";
+  list: Flight[];
+  filteredList: Flight[];
+  total: number;
+  isLoading: boolean;
+  sortType: "price" | "duration" | "stops";
+  selectedStops: number[];
+  selectedAirlines: number[];
+}
 export interface StopOption {
   id: number;
   label: string;
@@ -16,4 +28,8 @@ export interface StopOption {
 export interface AirlineOption {
   id: number;
   name: string;
+}
+
+export interface RootState {
+  flights: FlightsState;
 }
