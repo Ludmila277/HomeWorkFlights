@@ -28,6 +28,7 @@ export interface StopOption {
 export interface AirlineOption {
   id: number;
   name: string;
+  image: string;
 }
 
 export interface RootState {

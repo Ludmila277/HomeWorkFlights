@@ -14,6 +14,7 @@ export interface Flight {
   stops: number;
   airlineId: number;
   image: string;
+
 }
 
 export interface FlightsState {
@@ -36,6 +37,7 @@ const initialState: FlightsState = {
   sortType: "price",
   selectedStops: [],
   selectedAirlines: [],
+  
 };
 
 export const loadFlights = createAsyncThunk<
@@ -141,7 +143,7 @@ const flightsSlice = createSlice({
           filtered = filtered.sort((a, b) => {
             const durA = parseDuration(a.duration);
             const durB = parseDuration(b.duration);
-            return durA - durB; // Сравнение по длительности
+            return durA - durB;
           });
           break;
         case "stops":
@@ -181,8 +183,44 @@ const flightsSlice = createSlice({
         (state, action: PayloadAction<Flight[]>) => {
           state.status = "success";
           state.list = [...state.list, ...action.payload];
+
+          // Применяем фильтры к новым билетам
+          const newFiltered = action.payload.filter((flight) => {
+            return (
+              (state.selectedStops.length === 0 ||
+                state.selectedStops.includes(flight.stops)) &&
+              (state.selectedAirlines.length === 0 ||
+                state.selectedAirlines.includes(flight.airlineId))
+            );
+          });
+
+          // Объединяем с существующими отфильтрованными
+          const combinedFiltered = [...state.filteredList, ...newFiltered];
+
+          // Применяем сортировку
+          const parseDuration = (durationString: string): number => {
+            const [hours, minutes] = durationString.split(" ч ").map(Number);
+            return (hours || 0) * 60 + (minutes || 0);
+          };
+
+          switch (state.sortType) {
+            case "price":
+              combinedFiltered.sort((a, b) => a.price - b.price);
+              break;
+            case "duration":
+              combinedFiltered.sort((a, b) => {
+                const durA = parseDuration(a.duration);
+                const durB = parseDuration(b.duration);
+                return durA - durB;
+              });
+              break;
+            case "stops":
+              combinedFiltered.sort((a, b) => a.stops - b.stops);
+              break;
+          }
+
+          state.filteredList = combinedFiltered;
           state.isLoading = false;
-          state.filteredList = state.list;
         }
       )
       .addCase(loadMoreFlights.rejected, (state) => {

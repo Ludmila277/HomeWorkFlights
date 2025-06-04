@@ -4,19 +4,30 @@ import type { RootState } from "./components/Redux/Store";
 import Header from "./components/Header/Header";
 import { DownloadButton, FlightCard } from "./components/Main/FlightCard";
 import type { Flight } from "./components/Redux/Types";
-import { loadFlights } from "./components/Redux/FlightsSlice";
+import { applyFilters, loadFlights } from "./components/Redux/FlightsSlice";
 import "./App.css";
+
 function App() {
   const dispatch = useDispatch();
 
-  const flights = useSelector((state: RootState) => state.flights.filteredList); // Используем отфильтрованный список
+  const flights = useSelector((state: RootState) => state.flights.filteredList);
   const isLoading = useSelector(
     (state: RootState) => state.flights.status === "loading"
   );
+  
+  // Добавляем селекторы для отслеживаемых состояний
+  const selectedStops = useSelector((state: RootState) => state.flights.selectedStops);
+  const selectedAirlines = useSelector((state: RootState) => state.flights.selectedAirlines);
+  const sortType = useSelector((state: RootState) => state.flights.sortType);
 
   useEffect(() => {
     dispatch(loadFlights());
   }, [dispatch]);
+
+  // Создаем эффект для применения фильтров при изменении состояний
+  useEffect(() => {
+    dispatch(applyFilters());
+  }, [dispatch, selectedStops, selectedAirlines, sortType]);
 
   return (
     <div className="app">

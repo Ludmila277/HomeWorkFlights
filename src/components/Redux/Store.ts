@@ -15,6 +15,7 @@ const initialState: FlightsState = {
   sortType: "price",
   selectedStops: [],
   selectedAirlines: [],
+
 };
 
 export const store = configureStore({

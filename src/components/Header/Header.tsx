@@ -35,9 +35,9 @@ const stopsOptions: StopOption[] = [
 ];
 
 const airlinesOptions: Airline[] = [
-  { id: 1, name: "Победа", key: "pobeda" },
-  { id: 2, name: "Red Wings", key: "red-wings" },
-  { id: 3, name: "S7 Airlines", key: "s7-airlines" },
+  { id: 1, name: "Победа", key: "flight-1" },
+  { id: 2, name: "Red Wings", key: "flight-2" },
+  { id: 3, name: "S7 Airlines", key: "flight-3" },
 ];
 
 const Header: React.FC = () => {
