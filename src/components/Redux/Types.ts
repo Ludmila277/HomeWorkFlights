@@ -20,16 +20,6 @@ export interface FlightsState {
   selectedStops: number[];
   selectedAirlines: number[];
 }
-export interface StopOption {
-  id: number;
-  label: string;
-}
-
-export interface AirlineOption {
-  id: number;
-  name: string;
-  image: string;
-}
 
 export interface RootState {
   flights: FlightsState;

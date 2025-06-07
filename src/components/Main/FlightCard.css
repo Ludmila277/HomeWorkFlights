@@ -5,8 +5,6 @@
   padding: 20px;
   border-radius: 10px;
   background-color: #f8f8f8;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 100%;
 }
 .ticket_container,
 .ticket_container__way,
@@ -19,8 +17,6 @@
   gap: 5px;
   padding: 15px;
   border-radius: 10px;
-  background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 .ticket_container__way {
   top: 33px;
@@ -52,7 +48,6 @@
   color: #4e148c;
 }
 
-/* Время в пути */
 .duration_description,
 .duration {
   font-size: 16px;
@@ -66,7 +61,6 @@
   color: #4e148c;
 }
 
-/* Информация о пересадках */
 .stops_description,
 .stops {
   font-size: 16px;
@@ -75,6 +69,8 @@
 
 .stops_description {
   color: #858ae3;
+  position: relative;
+  top: 3px;
 }
 .stops {
   color: #4e148c;
@@ -114,24 +110,24 @@
     gap: 2px;
     padding: 2px;
     position: relative;
-    top: 50px;
+    top: 120px;
   }
 
   .load-more-button {
     position: relative;
-    top: 10px;
+    top: 70px;
     left: 10px;
   }
 }
 
 @media (max-width: 480px) {
   .tickets {
-    top: 100px;
+    top: 170px;
   }
 
   .load-more-button {
     position: relative;
-    top: 20px;
+    top: 150px;
     left: 10px;
   }
 }

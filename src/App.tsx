@@ -14,17 +14,19 @@ function App() {
   const isLoading = useSelector(
     (state: RootState) => state.flights.status === "loading"
   );
-  
-  // Добавляем селекторы для отслеживаемых состояний
-  const selectedStops = useSelector((state: RootState) => state.flights.selectedStops);
-  const selectedAirlines = useSelector((state: RootState) => state.flights.selectedAirlines);
+
+  const selectedStops = useSelector(
+    (state: RootState) => state.flights.selectedStops
+  );
+  const selectedAirlines = useSelector(
+    (state: RootState) => state.flights.selectedAirlines
+  );
   const sortType = useSelector((state: RootState) => state.flights.sortType);
 
   useEffect(() => {
     dispatch(loadFlights());
   }, [dispatch]);
 
-  // Создаем эффект для применения фильтров при изменении состояний
   useEffect(() => {
     dispatch(applyFilters());
   }, [dispatch, selectedStops, selectedAirlines, sortType]);
@@ -41,7 +43,7 @@ function App() {
         ) : (
           flights.map((flight: Flight) => (
             <FlightCard
-              key={flight.id}
+              key={`${flight.id}-${flight.departureTime}`}
               price={flight.price}
               route={flight.route}
               departureTime={flight.departureTime}

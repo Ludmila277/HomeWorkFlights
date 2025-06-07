@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import flight1 from "../../assets/победа.svg";
 import flight2 from "../../assets/red wings.svg";
 import flight3 from "../../assets/airlines.svg";
+import type { RootState } from "./Types";
 
 export interface Flight {
   id: number;
@@ -14,7 +15,6 @@ export interface Flight {
   stops: number;
   airlineId: number;
   image: string;
-
 }
 
 export interface FlightsState {
@@ -37,15 +37,92 @@ const initialState: FlightsState = {
   sortType: "price",
   selectedStops: [],
   selectedAirlines: [],
-  
 };
 
+const generateRandomFlight = (): Flight => {
+  const id = Math.max(...initialState.list.map((f) => f.id), 0) + 1;
+  const price = Math.floor(Math.random() * (25000 - 10000) + 10000);
+  const route = ["SVO - LED", "DME - AER", "SVO - AER", "DME - LED"][
+    Math.floor(Math.random() * 4)
+  ];
+  const departureTime = `${Math.floor(Math.random() * 24)}:${Math.floor(
+    Math.random() * 60
+  )
+    .toString()
+    .padStart(2, "0")}`;
+  const duration = `${Math.floor(Math.random() * 10)} ч ${Math.floor(
+    Math.random() * 60
+  )} мин`;
+  const stops = Math.floor(Math.random() * 4);
+  const airlineId = Math.floor(Math.random() * 3) + 1;
+  const image = [flight1, flight2, flight3][Math.floor(Math.random() * 3)];
+
+  return {
+    id,
+    price,
+    route,
+    departureTime,
+    arrivalTime: `${
+      parseInt(departureTime.split(":")[0]) + parseInt(duration.split(" ч ")[0])
+    }:${departureTime.split(":")[1]}`,
+    duration,
+    stops,
+    airlineId,
+    image,
+  };
+};
+
+const fetchFlights = async (isInitialLoad: boolean): Promise<Flight[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      if (isInitialLoad) {
+        resolve([
+          {
+            id: 1,
+            price: 12680,
+            route: "SVO - LED",
+            departureTime: "12:00",
+            arrivalTime: "16:30",
+            duration: "4 ч 30 мин",
+            stops: 1,
+            airlineId: 1,
+            image: flight1,
+          },
+          {
+            id: 2,
+            price: 21500,
+            route: "SVO - LED",
+            departureTime: "14:00",
+            arrivalTime: "16:30",
+            duration: "2 ч 0 мин",
+            stops: 0,
+            airlineId: 2,
+            image: flight2,
+          },
+          {
+            id: 3,
+            price: 23995,
+            route: "SVO - LED",
+            departureTime: "04:50",
+            arrivalTime: "13:30",
+            duration: "8 ч 40 мин",
+            stops: 2,
+            airlineId: 3,
+            image: flight3,
+          },
+        ]);
+      } else {
+        resolve(Array.from({ length: 3 }, () => generateRandomFlight()));
+      }
+    }, 1000);
+  });
+};
 export const loadFlights = createAsyncThunk<
   Flight[],
   void,
   { rejectValue: string }
 >("flights/load", async () => {
-  return fetchFlights();
+  return fetchFlights(true);
 });
 
 export const loadMoreFlights = createAsyncThunk<
@@ -53,50 +130,8 @@ export const loadMoreFlights = createAsyncThunk<
   void,
   { rejectValue: string }
 >("flights/loadMore", async () => {
-  return fetchFlights();
+  return fetchFlights(false);
 });
-
-const fetchFlights = async (): Promise<Flight[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          id: 1,
-          price: 12680,
-          route: "SVO - LED",
-          departureTime: "12:00",
-          arrivalTime: "16:30",
-          duration: "4 ч 30 мин",
-          stops: 1,
-          airlineId: 1,
-          image: flight1,
-        },
-        {
-          id: 2,
-          price: 21500,
-          route: "SVO - LED",
-          departureTime: "14:00",
-          arrivalTime: "16:30",
-          duration: "2 ч 0 мин",
-          stops: 0,
-          airlineId: 2,
-          image: flight2,
-        },
-        {
-          id: 3,
-          price: 23995,
-          route: "SVO - LED",
-          departureTime: "04:50",
-          arrivalTime: "13:30",
-          duration: "8 ч 40 мин",
-          stops: 2,
-          airlineId: 3,
-          image: flight3,
-        },
-      ]);
-    }, 1000);
-  });
-};
 
 const flightsSlice = createSlice({
   name: "flights",
@@ -117,13 +152,11 @@ const flightsSlice = createSlice({
     },
     applyFilters: (state) => {
       let filtered = state.list;
-
       if (state.selectedStops.length > 0) {
         filtered = filtered.filter((flight) =>
           state.selectedStops.includes(flight.stops)
         );
       }
-
       if (state.selectedAirlines.length > 0) {
         filtered = filtered.filter((flight) =>
           state.selectedAirlines.includes(flight.airlineId)
@@ -184,7 +217,6 @@ const flightsSlice = createSlice({
           state.status = "success";
           state.list = [...state.list, ...action.payload];
 
-          // Применяем фильтры к новым билетам
           const newFiltered = action.payload.filter((flight) => {
             return (
               (state.selectedStops.length === 0 ||
@@ -194,10 +226,8 @@ const flightsSlice = createSlice({
             );
           });
 
-          // Объединяем с существующими отфильтрованными
           const combinedFiltered = [...state.filteredList, ...newFiltered];
 
-          // Применяем сортировку
           const parseDuration = (durationString: string): number => {
             const [hours, minutes] = durationString.split(" ч ").map(Number);
             return (hours || 0) * 60 + (minutes || 0);
@@ -239,3 +269,15 @@ export const {
 } = flightsSlice.actions;
 
 export default flightsSlice.reducer;
+
+export const selectFlights = (state: RootState) => state.flights;
+export const selectFilteredFlights = (state: RootState) =>
+  state.flights.filteredList;
+export const selectIsLoading = (state: RootState) => state.flights.isLoading;
+
+export const selectTotalFlights = (state: RootState) => state.flights.total;
+export const selectSortType = (state: RootState) => state.flights.sortType;
+export const selectSelectedStops = (state: RootState) =>
+  state.flights.selectedStops;
+export const selectSelectedAirlines = (state: RootState) =>
+  state.flights.selectedAirlines;

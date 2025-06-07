@@ -49,7 +49,7 @@ const DownloadButton: React.FC = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state: RootState) => state.flights.isLoading);
   const flightsCount = useSelector(
-    (state: RootState) => state.flights.list.length
+    (state: RootState) => state.flights.filteredList.length
   );
   const totalFlights = useSelector((state: RootState) => state.flights.total);
 
